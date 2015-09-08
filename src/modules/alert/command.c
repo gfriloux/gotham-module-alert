@@ -117,10 +117,6 @@ del_data:
    return EINA_TRUE;
 }
 
-
-
-
-
 Module_Alert_Command *
 alert_command_new(Gotham *gotham,
                   const char *name,

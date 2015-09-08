@@ -8,6 +8,8 @@ mod_LTLIBRARIES = \
 src_modules_alert_la_SOURCES = \
    src/modules/alert/alert.c \
    src/modules/alert/alert.h \
+   src/modules/alert/alfred.c \
+   src/modules/alert/botman.c \
    src/modules/alert/command.c \
    src/modules/alert/module.c \
    src/modules/alert/conf.c

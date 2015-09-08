@@ -18,6 +18,7 @@ int _module_alert_log_dom;
 typedef struct _Module_Alert
 {
    Gotham *gotham;
+   Eina_Array *watchers;
 
    Eina_List *commands;
 } Module_Alert;
@@ -49,7 +50,20 @@ typedef struct _Module_Alert_Command
 #define NFO(...) EINA_LOG_DOM_INFO(_module_alert_log_dom, __VA_ARGS__)
 #define ERR(...) EINA_LOG_DOM_ERR(_module_alert_log_dom, __VA_ARGS__)
 
-void alert_conf_botman_load(Module_Alert *alert);
+void alfred_command_list(Module_Alert *alert, Gotham_Citizen_Command *command);
+void alfred_command_add(Module_Alert *alert, Gotham_Citizen_Command *command);
+void alfred_command_del(Module_Alert *alert, Gotham_Citizen_Command *command);
+
+void alfred_register(Module_Alert *alert);
+void alfred_unregister(Module_Alert *alert);
+
 Module_Alert_Command * alert_command_new(Gotham *gotham, const char *name, double interval, const char *command);
+
+void botman_register(Module_Alert *alert);
+void botman_unregister(Module_Alert *alert);
+
+void conf_load_alfred(Module_Alert *alert);
+void conf_load_botman(Module_Alert *alert);
+
 void module_json_answer(const char *cmd, const char *params, Eina_Bool status, Eina_Strbuf *content, Gotham *gotham, Gotham_Citizen *citizen, Eina_Bool send_to_alfred);
 #endif

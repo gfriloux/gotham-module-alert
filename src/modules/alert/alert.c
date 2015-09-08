@@ -25,7 +25,8 @@ module_register(Gotham *gotham)
 
    alert->gotham = gotham;
 
-   alert_conf_botman_load(alert);
+   if (gotham->me->type == GOTHAM_CITIZEN_TYPE_BOTMAN) botman_register(alert);
+   else alfred_register(alert);
 
    return alert;
 }
