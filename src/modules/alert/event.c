@@ -8,12 +8,14 @@ event_citizen_command(void *data,
    Module_Alert *alert = data;
    Gotham_Citizen_Command *command = ev;
 
+DBG("alert[%p] command[%p]", alert, command);
+
    if (strcmp(command->name, ".alert"))
      return EINA_TRUE;
 
    command->handled = EINA_TRUE;
 
-   if (info->gotham->me->type == GOTHAM_CITIZEN_TYPE_ALFRED)
+   if (alert->gotham->me->type == GOTHAM_CITIZEN_TYPE_ALFRED)
      {
         if ( (command->citizen->type == GOTHAM_CITIZEN_TYPE_BOTMAN) &&
              (command->parameters)                                  &&

@@ -66,6 +66,8 @@ conf_load_alfred(Module_Alert *alert)
    cJSON *json,
          *watchers;
 
+   DBG("alert[%p]", alert);
+
    json = gotham_modules_conf_load(MODULE_ALERT_CONF);
    EINA_SAFETY_ON_NULL_RETURN(json);
 

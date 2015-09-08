@@ -11,6 +11,7 @@ src_modules_alert_la_SOURCES = \
    src/modules/alert/alfred.c \
    src/modules/alert/botman.c \
    src/modules/alert/command.c \
+   src/modules/alert/event.c \
    src/modules/alert/module.c \
    src/modules/alert/conf.c
 src_modules_alert_la_CFLAGS = \

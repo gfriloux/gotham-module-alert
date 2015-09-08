@@ -119,6 +119,8 @@ alfred_forward(Module_Alert *alert,
 void
 alfred_register(Module_Alert *alert)
 {
+   DBG("alert[%p]", alert);
+
    conf_load_alfred(alert);
 
    gotham_modules_command_add("alert", ".alert",

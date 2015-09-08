@@ -54,6 +54,8 @@ void alfred_command_list(Module_Alert *alert, Gotham_Citizen_Command *command);
 void alfred_command_add(Module_Alert *alert, Gotham_Citizen_Command *command);
 void alfred_command_del(Module_Alert *alert, Gotham_Citizen_Command *command);
 
+void alfred_forward(Module_Alert *alert, Gotham_Citizen_Command *command);
+
 void alfred_register(Module_Alert *alert);
 void alfred_unregister(Module_Alert *alert);
 
@@ -64,6 +66,7 @@ void botman_unregister(Module_Alert *alert);
 
 void conf_load_alfred(Module_Alert *alert);
 void conf_load_botman(Module_Alert *alert);
+void conf_save(Module_Alert *alert);
 
 void module_json_answer(const char *cmd, const char *params, Eina_Bool status, Eina_Strbuf *content, Gotham *gotham, Gotham_Citizen *citizen, Eina_Bool send_to_alfred);
 #endif
