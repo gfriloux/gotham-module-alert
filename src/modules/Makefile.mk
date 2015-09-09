@@ -20,7 +20,7 @@ src_modules_alert_la_CFLAGS = \
 src_modules_alert_la_LDFLAGS = \
    `pkg-config --libs $(ALERT_REQUIRES)` \
    -no-undefined -module -avoid-version \
-   -Wl,-z,defs
+   -Wl,-z,defs -lm
 src_modules_alert_la_LIBADD = \
    src/lib/libcjson.la
 src_modules_alert_la_LIBTOOLFLAGS = --tag=disable-static
