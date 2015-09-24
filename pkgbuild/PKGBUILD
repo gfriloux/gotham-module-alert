@@ -1,0 +1,24 @@
+# Maintainer: Guillaume Friloux <guillaume@friloux.me>
+
+pkgname=('gotham-module-alert')
+pkgver=1.0.0
+pkgrel=1
+arch=('i686' 'x86_64')
+url="https://github.com/gfriloux/gotham-module-alert"
+license=('LGPL')
+options=(debug !strip)
+
+build()
+{
+  export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+
+  cd ../..
+  ./autogen.sh || return 1
+  make || return 1
+}
+
+package()
+{
+  cd ../..
+  make DESTDIR="$pkgdir" install
+}
