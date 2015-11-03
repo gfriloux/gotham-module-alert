@@ -17,7 +17,7 @@ alfred_command_list(Module_Alert *alert,
      eina_strbuf_append_printf(buf, "\t%s\n", watcher);
 
    p = eina_strbuf_string_get(buf);
-   gotham_citizen_send(command->citizen, p);
+   gotham_command_send(command, p);
    eina_strbuf_free(buf);
 }
 
@@ -42,14 +42,14 @@ alfred_command_add(Module_Alert *alert,
 
    eina_array_push(alert->watchers, eina_stringshare_add(jid));
    conf_save(alert);
-   gotham_citizen_send(command->citizen, "A new watcher has arise");
+   gotham_command_send(command, "A new watcher has arise");
    return;
 
 not_found:
-   gotham_citizen_send(command->citizen, "Unknown watcher specified");
+   gotham_command_send(command, "Unknown watcher specified");
    return;
 exists:
-   gotham_citizen_send(command->citizen, "This citizen is already a nightwatcher!");
+   gotham_command_send(command, "This citizen is already a nightwatcher!");
 }
 
 Eina_Bool
@@ -76,7 +76,7 @@ alfred_command_del(Module_Alert *alert,
                      (void *)command->command[2]);
    conf_save(alert);
 
-   gotham_citizen_send(command->citizen, "Rest in pieces");
+   gotham_command_send(command, "Rest in pieces");
 }
 
 
