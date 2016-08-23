@@ -45,7 +45,9 @@ _alert_command_del(void *data,
    val = gotham_citizen_var_get(mac->gotham->me, mac->name);
    DBG("val[%s] value[%s]", val, eina_strbuf_string_get(mac->buf));
 
-   if ((!val) || (strcmp(val, eina_strbuf_string_get(mac->buf))))
+   if (!val) goto set_var;
+
+   if (strcmp(val, eina_strbuf_string_get(mac->buf)))
      {
         Eina_Strbuf *buf = eina_strbuf_new();
         EINA_SAFETY_ON_NULL_GOTO(buf, clean_mac);
@@ -56,6 +58,7 @@ _alert_command_del(void *data,
         eina_strbuf_free(buf);
      }
 
+set_var:
    gotham_citizen_var_set(mac->gotham->me, mac->name, eina_strbuf_string_get(mac->buf));
 
 clean_mac:
