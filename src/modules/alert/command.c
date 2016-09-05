@@ -42,7 +42,7 @@ _alert_command_del(void *data,
 
    DBG("mac[%p] del[%p]", mac, del);
 
-   val = gotham_citizen_var_get(mac->gotham->me, mac->name);
+   val = gotham_citizen_var_get(mac->gotham->me, mac->command->name);
    DBG("val[%s] value[%s]", val, eina_strbuf_string_get(mac->buf));
 
    if (!val) goto set_var;
@@ -52,14 +52,16 @@ _alert_command_del(void *data,
         Eina_Strbuf *buf = eina_strbuf_new();
         EINA_SAFETY_ON_NULL_GOTO(buf, clean_mac);
 
-        eina_strbuf_append_printf(buf, "Variable '%s' changed from '%s' to '%s'",
-                                  mac->name, val, eina_strbuf_string_get(mac->buf));
-        module_json_answer(".alert", "state", EINA_TRUE, buf, mac->gotham, mac->gotham->alfred, EINA_FALSE);
+        eina_strbuf_append_printf(buf, ".notification send %s Variable '%s' changed from '%s' to '%s'",
+                                  strlen(mac->command->group) ? mac->command->group : "dev",
+                                  mac->command->name, val,
+                                  eina_strbuf_string_get(mac->buf));
+        gotham_citizen_send(mac->gotham->alfred, eina_strbuf_string_get(buf));
         eina_strbuf_free(buf);
      }
 
 set_var:
-   gotham_citizen_var_set(mac->gotham->me, mac->name, eina_strbuf_string_get(mac->buf));
+   gotham_citizen_var_set(mac->gotham->me, mac->command->name, eina_strbuf_string_get(mac->buf));
 
 clean_mac:
    _alert_command_clean(mac);
@@ -103,7 +105,7 @@ alert_command_run(void *data)
    mac->buf = eina_strbuf_new();
    EINA_SAFETY_ON_NULL_GOTO(mac->buf, del_error);
 
-   mac->exe = ecore_exe_pipe_run(mac->command, ECORE_EXE_PIPE_READ, mac);
+   mac->exe = ecore_exe_pipe_run(mac->command->command, ECORE_EXE_PIPE_READ, mac);
    EINA_SAFETY_ON_NULL_GOTO(mac->exe, free_buf);
    ecore_exe_data_set(mac->exe, mac);
 
@@ -122,9 +124,7 @@ del_data:
 
 Module_Alert_Command *
 alert_command_new(Gotham *gotham,
-                  const char *name,
-                  double interval,
-                  const char *command)
+                  Module_Alert_Conf_Command *command)
 {
    Module_Alert_Command *mac;
 
@@ -133,21 +133,8 @@ alert_command_new(Gotham *gotham,
 
    mac->gotham = gotham;
 
-   mac->name = strdup(name);
-   EINA_SAFETY_ON_NULL_GOTO(mac->name, free_mac);
-
-   mac->interval = interval;
-
-   mac->command = strdup(command);
-   EINA_SAFETY_ON_NULL_GOTO(mac->command, free_name);
-
-   mac->timer = ecore_timer_add(mac->interval, alert_command_run, mac);
+   mac->command = command;
+   mac->timer = ecore_timer_add(mac->command->interval, alert_command_run, mac);
 
    return mac;
-
-free_name:
-   free((char *)mac->name);
-free_mac:
-   free(mac);
-   return NULL;
 }
