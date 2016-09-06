@@ -22,14 +22,23 @@ module_register(Gotham *gotham)
    alert = calloc(1, sizeof(Module_Alert));
    EINA_SAFETY_ON_NULL_RETURN_VAL(alert, NULL);
 
-   DBG("alert[%p]", alert);
+   DBG("alert[%p] conf["MODULE_ALERT_CONF"]", alert);
 
    alert->gotham = gotham;
    alert->conf = gotham_serialize_file_to_struct(MODULE_ALERT_CONF,  (Gotham_Deserialization_Function)azy_value_to_Module_Alert_Conf);
 
+   DBG("Loaded %d commands", eina_list_count(alert->conf->commands));
+
    EINA_LIST_FOREACH(alert->conf->commands, l, command)
      {
         Module_Alert_Command *mac;
+
+        DBG("Found command to execute :\n"
+            "\tname\t: %s\n"
+            "\tinterval\t: %d\n"
+            "\tcommmand\t: %s\n"
+            "\tgroup\t: %s",
+            command->name, command->interval, command->command, command->group);
 
         mac = alert_command_new(alert->gotham, command);
         EINA_SAFETY_ON_NULL_GOTO(mac, end_loop);
