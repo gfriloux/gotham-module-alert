@@ -26,3 +26,4 @@ pkgbuild/*.tar.xz
 *.o
 *.la
 stamp-h1
+Module_Common*
