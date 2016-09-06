@@ -38,7 +38,7 @@ module_register(Gotham *gotham)
             "\tinterval\t: %d\n"
             "\tcommmand\t: %s\n"
             "\tgroup\t: %s",
-            command->name, command->interval, command->command, command->group);
+            command->name, command->interval, command->command, command->notification);
 
         mac = alert_command_new(alert->gotham, command);
         EINA_SAFETY_ON_NULL_GOTO(mac, end_loop);

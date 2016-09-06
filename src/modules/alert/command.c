@@ -53,7 +53,7 @@ _alert_command_del(void *data,
         EINA_SAFETY_ON_NULL_GOTO(buf, clean_mac);
 
         eina_strbuf_append_printf(buf, ".notification send %s Variable '%s' changed from '%s' to '%s'",
-                                  strlen(mac->command->group) ? mac->command->group : "dev",
+                                  strlen(mac->command->notification) ? mac->command->notification : "dev",
                                   mac->command->name, val,
                                   eina_strbuf_string_get(mac->buf));
         gotham_citizen_send(mac->gotham->alfred, eina_strbuf_string_get(buf));

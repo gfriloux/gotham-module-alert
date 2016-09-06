@@ -5,7 +5,7 @@ struct Alert_Conf_Command
    string name;
    int interval;
    string command;
-   string group;
+   string notification;
 };
 
 struct Alert_Conf
